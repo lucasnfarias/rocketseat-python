@@ -10,5 +10,9 @@ def hello_world():
 def about():
   return "Sobre o site:"
 
+@app.route("/tasks")
+def tasks():
+  return []
+
 if __name__ == "__main__":
   app.run(debug=True)
