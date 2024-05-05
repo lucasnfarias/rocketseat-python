@@ -34,6 +34,34 @@ def get_task_by_id(id):
 
   return jsonify({ "message": f"Atividade com id {id} não existe." }), 404
 
+@app.route('/tasks/<int:id>', methods=['PUT'])
+def update_task(id):
+  task = None
+  for t in tasks:
+    if t.id == id:
+      task = t
+
+  if task == None:
+    return jsonify({ "message": f"Atividade com id {id} não existe." }), 404
+
+  data = request.get_json()
+  task.title = data['title']
+  task.description = data['description']
+  task.completed = data['completed']
+
+  return jsonify({ "message": "Tarefa atualizada com sucesso." })
+
+@app.route('/tasks/<int:id>', methods=['DELETE'])
+def delete_task(id):
+  task = None
+  for t in tasks:
+    if t.id == id:
+      tasks.remove(t)
+      return jsonify({ "message": "Tarefa deletada com sucesso." })
+
+  return jsonify({ "message": f"Atividade com id {id} não existe." }), 404
+
+
 
 if __name__ == "__main__":
   app.run(debug=True)
